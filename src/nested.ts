@@ -33,7 +33,12 @@ export function findQuestion(
     questions: Question[],
     id: number,
 ): Question | null {
-    return null;
+    const correctQuestion: Question | null = questions.reduce(
+        (corrQ: Question | null, currQ: Question) =>
+            currQ.id === id ? (corrQ = currQ) : (corrQ = corrQ),
+        null,
+    );
+    return correctQuestion;
 }
 
 /**
