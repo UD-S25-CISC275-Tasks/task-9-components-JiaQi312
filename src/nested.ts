@@ -102,7 +102,23 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    return "";
+    let CSVString: string = "id,name,options,points,published";
+    const questionAddOn: string = questions.reduce(
+        (totalString: string, currQ: Question) =>
+            (totalString +=
+                "\n" +
+                currQ.id +
+                "," +
+                currQ.name +
+                "," +
+                currQ.options.length +
+                "," +
+                currQ.points +
+                "," +
+                currQ.published),
+        "",
+    );
+    return CSVString + questionAddOn;
 }
 
 /**
