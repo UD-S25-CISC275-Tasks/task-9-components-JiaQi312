@@ -240,7 +240,29 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string,
 ): Question[] {
-    return [];
+    return questions.map((question: Question): Question => {
+        if (question.id === targetId) {
+            if (targetOptionIndex === -1) {
+                //to end
+                return {
+                    ...question,
+                    options: [...question.options, newOption],
+                };
+            } else {
+                //replace option
+                return {
+                    ...question,
+                    options: insertOption(
+                        question.options,
+                        targetOptionIndex,
+                        newOption,
+                    ),
+                };
+            }
+        }
+        //return as normal
+        return question;
+    });
 }
 
 /***
@@ -255,4 +277,15 @@ export function duplicateQuestionInArray(
     newId: number,
 ): Question[] {
     return [];
+}
+
+//helper function
+function insertOption(
+    options: string[],
+    targetId: number,
+    newOption: string,
+): string[] {
+    return options.map((option: string, index: number): string =>
+        index === targetId ? (option = newOption) : option,
+    );
 }
