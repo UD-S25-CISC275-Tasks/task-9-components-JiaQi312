@@ -36,7 +36,7 @@ export function findQuestion(
 ): Question | null {
     const correctQuestion: Question | null = questions.reduce(
         (corrQ: Question | null, currQ: Question) =>
-            currQ.id === id ? (corrQ = currQ) : (corrQ = corrQ),
+            currQ.id === id ? (corrQ = currQ) : corrQ,
         null,
     );
     return correctQuestion;
@@ -80,7 +80,7 @@ export function sumPoints(questions: Question[]): number {
 export function sumPublishedPoints(questions: Question[]): number {
     return questions.reduce(
         (sum: number, currQ: Question) =>
-            currQ.published === true ? (sum += currQ.points) : sum,
+            currQ.published ? (sum += currQ.points) : sum,
         0,
     );
 }
@@ -224,6 +224,17 @@ export function changeQuestionTypeById(
     });
 }
 
+//helper function
+function insertOption(
+    options: string[],
+    targetId: number,
+    newOption: string,
+): string[] {
+    return options.map((option: string, index: number): string =>
+        index === targetId ? (option = newOption) : option,
+    );
+}
+
 /**
  * Consumes an array of Questions and produces a new array of Questions, where all
  * the Questions are the same EXCEPT for the one with the given `targetId`. That
@@ -282,16 +293,5 @@ export function duplicateQuestionInArray(
                 [...dupArr, currQ, duplicateQuestion(newId, currQ)]
             :   [...dupArr, currQ],
         [],
-    );
-}
-
-//helper function
-function insertOption(
-    options: string[],
-    targetId: number,
-    newOption: string,
-): string[] {
-    return options.map((option: string, index: number): string =>
-        index === targetId ? (option = newOption) : option,
     );
 }
