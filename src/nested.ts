@@ -8,7 +8,7 @@ import { duplicateQuestion, makeBlankQuestion } from "./objects";
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
     return questions.filter(
-        (question: Question): boolean => question.published
+        (question: Question): boolean => question.published,
     );
 }
 
@@ -22,7 +22,7 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
         (question: Question): boolean =>
             question.body.length !== 0 ||
             question.expected.length !== 0 ||
-            question.options.length !== 0
+            question.options.length !== 0,
     );
 }
 
@@ -32,12 +32,12 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
  */
 export function findQuestion(
     questions: Question[],
-    id: number
+    id: number,
 ): Question | null {
     const correctQuestion: Question | null = questions.reduce(
         (corrQ: Question | null, currQ: Question) =>
             currQ.id === id ? (corrQ = currQ) : corrQ,
-        null
+        null,
     );
     return correctQuestion;
 }
@@ -48,7 +48,7 @@ export function findQuestion(
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
     return questions.filter(
-        (question: Question): boolean => question.id !== id
+        (question: Question): boolean => question.id !== id,
     );
 }
 
@@ -60,7 +60,7 @@ export function getNames(questions: Question[]): string[] {
     return questions.reduce(
         (justNames: string[], currQ: Question) =>
             (justNames = [...justNames, currQ.name]),
-        []
+        [],
     );
 }
 
@@ -70,7 +70,7 @@ export function getNames(questions: Question[]): string[] {
 export function sumPoints(questions: Question[]): number {
     return questions.reduce(
         (sum: number, currQ: Question) => (sum += currQ.points),
-        0
+        0,
     );
 }
 
@@ -81,7 +81,7 @@ export function sumPublishedPoints(questions: Question[]): number {
     return questions.reduce(
         (sum: number, currQ: Question) =>
             currQ.published ? (sum += currQ.points) : sum,
-        0
+        0,
     );
 }
 
@@ -117,7 +117,7 @@ export function toCSV(questions: Question[]): string {
                 currQ.points +
                 "," +
                 currQ.published),
-        ""
+        "",
     );
     return CSVString + questionAddOn;
 }
@@ -136,10 +136,10 @@ export function makeAnswers(questions: Question[]): Answer[] {
                     questionId: currQ.id,
                     text: "",
                     submitted: false,
-                    correct: false
-                }
+                    correct: false,
+                },
             ]),
-        []
+        [],
     );
 }
 
@@ -149,7 +149,7 @@ export function makeAnswers(questions: Question[]): Answer[] {
  */
 export function publishAll(questions: Question[]): Question[] {
     return questions.map(
-        (question: Question): Question => ({ ...question, published: true })
+        (question: Question): Question => ({ ...question, published: true }),
     );
 }
 
@@ -165,7 +165,7 @@ export function sameType(questions: Question[]): boolean {
     return questions.reduce(
         (currBool: boolean, currQ: Question) =>
             currBool && currQ.type === targetType,
-        true
+        true,
     );
 }
 
@@ -178,7 +178,7 @@ export function addNewQuestion(
     questions: Question[],
     id: number,
     name: string,
-    type: QuestionType
+    type: QuestionType,
 ): Question[] {
     return [...questions, makeBlankQuestion(id, name, type)];
 }
@@ -191,11 +191,13 @@ export function addNewQuestion(
 export function renameQuestionById(
     questions: Question[],
     targetId: number,
-    newName: string
+    newName: string,
 ): Question[] {
     return questions.map(
         (question: Question): Question =>
-            question.id === targetId ? { ...question, name: newName } : question
+            question.id === targetId ?
+                { ...question, name: newName }
+            :   question,
     );
 }
 
@@ -209,7 +211,7 @@ export function renameQuestionById(
 export function changeQuestionTypeById(
     questions: Question[],
     targetId: number,
-    newQuestionType: QuestionType
+    newQuestionType: QuestionType,
 ): Question[] {
     return questions.map((question: Question): Question => {
         if (question.id === targetId) {
@@ -226,10 +228,10 @@ export function changeQuestionTypeById(
 function insertOption(
     options: string[],
     targetId: number,
-    newOption: string
+    newOption: string,
 ): string[] {
     return options.map((option: string, index: number): string =>
-        index === targetId ? (option = newOption) : option
+        index === targetId ? (option = newOption) : option,
     );
 }
 
@@ -247,7 +249,7 @@ export function editOption(
     questions: Question[],
     targetId: number,
     targetOptionIndex: number,
-    newOption: string
+    newOption: string,
 ): Question[] {
     return questions.map((question: Question): Question => {
         if (question.id === targetId) {
@@ -255,7 +257,7 @@ export function editOption(
                 //to end
                 return {
                     ...question,
-                    options: [...question.options, newOption]
+                    options: [...question.options, newOption],
                 };
             } else {
                 //replace option
@@ -264,8 +266,8 @@ export function editOption(
                     options: insertOption(
                         question.options,
                         targetOptionIndex,
-                        newOption
-                    )
+                        newOption,
+                    ),
                 };
             }
         }
@@ -283,13 +285,13 @@ export function editOption(
 export function duplicateQuestionInArray(
     questions: Question[],
     targetId: number,
-    newId: number
+    newId: number,
 ): Question[] {
     return questions.reduce(
         (dupArr: Question[], currQ: Question) =>
-            currQ.id === targetId
-                ? [...dupArr, currQ, duplicateQuestion(newId, currQ)]
-                : [...dupArr, currQ],
-        []
+            currQ.id === targetId ?
+                [...dupArr, currQ, duplicateQuestion(newId, currQ)]
+            :   [...dupArr, currQ],
+        [],
     );
 }

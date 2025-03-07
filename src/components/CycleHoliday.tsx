@@ -9,7 +9,7 @@ export function CycleHoliday(): React.JSX.Element {
 
     function changeAlphabetically(): void {
         let currInd: number = holidayAlphabet.findIndex(
-            (holiday: Holiday): boolean => holiday === currHoliday
+            (holiday: Holiday): boolean => holiday === currHoliday,
         );
         const newHoliday: Holiday = holidayAlphabet[(currInd + 1) % 5];
         setHoliday(newHoliday);
@@ -17,7 +17,7 @@ export function CycleHoliday(): React.JSX.Element {
 
     function changeByDate(): void {
         let currInd: number = holidayTimeline.findIndex(
-            (holiday: Holiday): boolean => holiday === currHoliday
+            (holiday: Holiday): boolean => holiday === currHoliday,
         );
         const newHoliday: Holiday = holidayTimeline[(currInd + 1) % 5];
         setHoliday(newHoliday);

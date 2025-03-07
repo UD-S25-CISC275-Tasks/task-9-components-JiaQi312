@@ -17,16 +17,12 @@ export function ChangeType(): React.JSX.Element {
     return (
         <div>
             <Button onClick={swapType}>Change Type</Button>
-            {currType === "multiple_choice_question" ? (
+            {currType === "multiple_choice_question" ?
                 <div>Multiple Choice</div>
-            ) : (
-                <div></div>
-            )}
-            {currType === "short_answer_question" ? (
+            :   <div></div>}
+            {currType === "short_answer_question" ?
                 <div>Short Answer</div>
-            ) : (
-                <div></div>
-            )}
+            :   <div></div>}
         </div>
     );
 }
